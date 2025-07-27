@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ওয়েবসাইটের টাইটেল -->
+  <title>GPA Calculator In BD</title>
+
+  <!-- সার্চ ইঞ্জিনের জন্য সাইটের সংক্ষিপ্ত বিবরণ -->
+  <meta name="description" content="Easily calculate your SSC & HSC GPA with our Bangla GPA Calculator.">
+
+  <!-- স্টাইল শুরু -->
+  <style>
+    /* সকল ডিভাইসে margin, padding শূন্য করে */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* বডির ব্যাকগ্রাউন্ড এবং লেখার রঙ সেট করা */
+    body {
+      background: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* হেডার এর ডিজাইন */
+    .site-header {
+      position: fixed; /* স্ক্রল করলেও হেডার স্থির থাকবে */
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #4facfe; /* হেডারের ব্যাকগ্রাউন্ড রঙ */
+      padding: 4px 7px;
+      z-index: 1000; /* উপরের সব কিছুর উপরে থাকবে */
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 26px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* মেনু লিংক */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px;
+    }
+
+    .nav-links li a:hover {
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+    }
+
+    /* মোবাইল স্ক্রিনের জন্য রেসপন্সিভ নেভ মেনু */
+    @media (max-width:768px) {
+      .menu-icon {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        flex-direction: column;
+        background: #fff;
+        color: #333;
+        display: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .nav-links li a {
+        color: #333;
+        padding: 12px;
+      }
+    }
+
+    /* হেডার যেন কন্টেন্ট ঢেকে না ফেলে তাই প্যাডিং */
+    main {
+      padding-top: 50px;
+    }
+
+
+    /* ফুটার স্টাইল */
+    footer {
+      background: #1c1c1e;
+      color: #fff;
+      padding: 60px 90px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: #16a085;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+    /* সার্চ আইকনে ক্লিক করলে ইনপুট ফিল্ড ও এর পাশে ক্লোজ বাটনের সিএসএস */
+    
+    .header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-icon img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 12px 16px;
+  display: none;
+  z-index: 1500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 12px 15px;
+  font-size: 18px;
+  border: 2px solid #6c5ce7;
+  border-radius: 6px 0 0 6px;
+  border-right: none;
+  outline: none;
+}
+
+.search-container .close-btn {
+  background-color: #6c5ce7;
+  color: white;
+  font-size: 20px;
+  border: 2px solid #6c5ce7;
+  border-left: none;
+  padding: 12px 18px;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-container .close-btn:hover {
+  background-color: #4834d4;
+}
+
+/*  CSS: ইনপুট বক্সের নিচে ফলাফল দেখাতে results-box ও result-item এর স্টাইল */
+.results-box {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top: 55px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 700px;
+  z-index: 2000;
+  display: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.result-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.result-item:hover {
+  background-color: #f1f1f1;
+}
+    /* ========== Featured Section ========== */
+    .section-title {
+      text-align: center;
+      color: orange;
+      font-size: 24px;
+      margin-top: 30px;
+    }
+
+    .cards-container {
+      background-color: #f8e9e9;
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #007bff;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #007bff;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img {
+      width: 60px;
+      margin-right: 15px;
+    }
+
+    .card span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .card {
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .card img {
+        margin-right: 0;
+      }
+    /* পোস্ট সেকশনের সিএসএস */  
+      
+      .recent-post {
+  background-color: #fff;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.post-img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.post-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin: 15px 0 8px;
+}
+
+.post-desc {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.read-more {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #6c5ce7;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.read-more:hover {
+  background-color: #0056b3;
+}
+/* স্ক্রল করে একটু নিচে আসলে স্ক্রল বাটন দেখানোর সিএসএস */
+#scrollBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 1000;
+  display: none;
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 10%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s;
+}
+
+#scrollBtn:hover {
+  background-color: #0056b3;
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- হেডার শুরু -->
+  <header class="site-header">
+    <div class="logo">GPA Calculator IN BD</div>
+    <!-- ডান দিকে সার্চ ও মেনু আইকন -->
+    <!-- সার্চ আইকন -->
+  <div class="header-right">
+    
+    <div class="search-icon" onclick="toggleSearch()">
+      <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search">
+    </div>
+    <!-- মেনু আইকন -->
+    <div class="menu-icon" id="menuIcon" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="ssc.html">SSC Calculator</a></li>
+      <li><a href="hsc.html">HSC Calculator</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+  </header>
+<!-- সার্চ ইনপুট ও এর পাশে ক্লোজ বাটন পুরো হেডারজুড়ে -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-container">
+    <input
+  type="text"
+  id="searchInput"
+  placeholder="Search here..."
+  onkeydown="if(event.key==='Enter'){performSearchRedirect()}"
+  oninput="performLiveSearch()"
+/>
+    <button class="close-btn" onclick="toggleSearch()">✖</button>
+  </div>
+  <!-- লাইভ সার্চের রেজাল্ট দেখানোর বক্স -->
+  <div id="searchResults" class="results-box"></div>
+</div>
+  <!-- মূল কনটেন্ট -->
+  <main>
+<!-- ========== Featured Section ========== -->
+  <h2 class="section-title">Featured Calculators</h2>
+  <div class="cards-container">
+
+    <!-- SSC GPA Calculator -->
+    <a href="ssc.html" class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2750/2750607.png" alt="SSC GPA">
+      <span>SSC GPA Calculator</span>
+    </a>
+
+    <!-- HSC GPA Calculator -->
+    <a href="hsc.html" class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2750/2750607.png" alt="HSC GPA">
+      <span>HSC GPA Calculator</span>
+    </a>
+  </div>
+  
+<!-- ======= Recent Post Section ======= -->
+<h2 class="section-title">Recent Post</h2>
+<div class="recent-post">
+  <img src="https://cdn-icons-png.flaticon.com/512/4285/4285396.png" alt="SSC Result Image" class="post-img">
+  <h3 class="post-title">How to get SSC Result with Marksheet</h3>
+  <p class="post-desc">
+    SSC is the 10th Education in Bangladesh and the Most anticipated program in Education. SSC ...
+  </p>
+  <a href="ssc-result.html" class="read-more">Continue Reading »</a>
+</div>
+  </main>
+
+  <!-- ফুটার -->
+  <footer>
+    © 2025 GPA Calculator BD · 
+    <a href="about.html">About</a> | 
+    <a href="privacy.html">Privacy Policy</a> | 
+    <a href="terms.html">Terms & Conditions</a> | 
+    <a href="contactus.html">Contact Us</a>
+  </footer>
+
+  <!-- হ্যামবার্গার মেনু চালু/বন্ধ করার জন্য জাভাস্ক্রিপ্ট -->
+  <script>
+    function toggleMenu(){
+      const menu = document.getElementById('navMenu');
+      const icon = document.getElementById('menuIcon');
+      menu.classList.toggle('show');
+      icon.textContent = icon.textContent === '☰' ? '✖' : '☰';
+    }
+  </script>
+  <!-- সার্চ আইকনে ক্লিক করলে ইনপুট ফিল্ড ও ক্রস বাটনে ক্লিক  করলে ক্লোজ করার জাভাস্ক্রিপ্ট ফাংশন -->
+<script>
+  function toggleSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+      document.getElementById('searchOverlay').style.display = 'none';
+    }
+  });
+</script>
+<script>
+  function performSearchRedirect() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    if (query.includes("ssc")) {
+      window.location.href = "ssc.html";
+    } else if (query.includes("hsc")) {
+      window.location.href = "hsc.html";
+    } else if (query.includes("cgpa")) {
+      window.location.href = "cgpa.html";
+    } else if (query.includes("calculator")) {
+      window.location.href = "index.html";
+    } else {
+      alert("Sorry, no result found for: " + query);
+    }
+  }
+</script>
+
+<script>
+  const data = [
+    { name: "SSC GPA Calculator", url: "ssc.html" },
+    { name: "HSC GPA Calculator", url: "hsc.html" },
+    { name: "About Us", url: "about.html" },
+    { name: "Privacy Policy", url: "privacy.html" },
+    { name: "Terms & Conditions", url: "terms.html" },
+    { name: "Contact Us", url: "contactus.html" }
+  ];
+
+  function performLiveSearch() {
+    const input = document.getElementById('searchInput').value.toLowerCase().trim();
+    const resultsBox = document.getElementById('searchResults');
+    resultsBox.innerHTML = '';
+
+    if (input === '') {
+      resultsBox.style.display = 'none';
+      return;
+    }
+
+    const filtered = data.filter(item => item.name.toLowerCase().includes(input));
+
+    if (filtered.length > 0) {
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('result-item');
+        div.textContent = item.name;
+        div.onclick = () => window.location.href = item.url;
+        resultsBox.appendChild(div);
+      });
+      resultsBox.style.display = 'block';
+    } else {
+      resultsBox.innerHTML = '<div class="result-item">No results found</div>';
+      resultsBox.style.display = 'block';
+    }
+  }
+
+  // Esc চাপলে সার্চ ক্লোজ
+  document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+      document.getElementById('searchOverlay').style.display = 'none';
+      document.getElementById('searchResults').style.display = 'none';
+    }
+  });
+</script>
+<script>
+  // Scroll করলে বোতাম দেখাও
+  window.onscroll = function () {
+    const btn = document.getElementById("scrollBtn");
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  };
+
+  // বোতামে ক্লিক করলে পেজের উপরে নিয়ে যাও
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+</script>
+</body>
+<!-- Scroll to Top Button -->
+<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+</html>

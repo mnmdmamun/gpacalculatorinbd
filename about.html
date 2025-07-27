@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <title>About Us - GPA Calculator BD Team</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn more about the team behind the most accurate GPA calculator in Bangladesh for SSC and HSC students.">
+  <meta name="keywords" content="About GPA calculator BD, team, developer info, education tools in Bangladesh">
+  <meta name="author" content="Mohammad Mamun Morshed Chowdhury">
+  <link rel="canonical" href="https://yourwebsite.com/about">
+ <!-- Google Fonts & Material Icons -->  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f9fafa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #0000ff;
+      color: white;
+      padding: 0px 0px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #2f3640;
+      gap: 20px;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #44bd32;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #2f3640;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      color: #273c75;
+      border-left: 4px solid #44bd32;
+      padding-left: 10px;
+    }
+
+    p {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    ul.toc {
+      list-style: none;
+      margin: 20px 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    ul.toc li a {
+      text-decoration: none;
+      background: #e1f5e6;
+      color: #2d3436;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 500;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    ul.toc li a:hover {
+      background: #44bd32;
+      color: white;
+    }
+
+    footer {
+      background-color: #1e272e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .section-title {
+        font-size: 18px;
+      }
+
+      ul.toc {
+        flex-direction: column;
+      }
+    }
+    <!--একদম উপরেরটার হামবার্গার-->
+  .site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #1e272e, #3d3dff);
+  color: white;
+  padding: 15px 20px;
+  position: sticky;
+  top:0px;
+  z-index: 1000;
+}
+
+.left-header {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 26px;
+  cursor: pointer; padding-right: 1px;
+  user-select: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #44bd32;
+}
+
+/* Responsive Menu */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links { gap: 0;
+    display: none;
+    flex-direction: column;
+    background-color: white; /* সাদা ব্যাকগ্রাউন্ড */
+    position: absolute;
+    top: 60px;
+    right: 20px; /* ডান পাশে আনলো */
+    width: 170px; /* ছোট আকার */
+    padding: 0px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* একটু shadow */
+  }
+
+  .nav-links li {
+    margin: 2px 0;
+  }
+
+  .nav-links li a {
+    color: #222; /* কালো লেখা */ font-size: 16px;
+  }
+
+  .nav-links li a:hover {
+    background-color: #f1f1f1;
+    border-radius: 1px;
+    padding: 2px 3px; 
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+}
+
+  </style></head>
+<body> <!-- Responsive Header with Hamburger Menu -->
+<header class="site-header">
+  <div class="left-header">
+    <div class="logo">GPA Calculator In BD</div>
+  <div class="menu-icon" id="menuIcon" onclick="toggleMenu()">&#9776;</div>
+  </div>
+  
+  <ul class="nav-links" id="navMenu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contactus.html">Contact Us</a></li>
+    <li><a href="privacy.html">Privacy Policy</a></li>
+    <li><a href="shterm.html">Terms & Conditions</a></li>
+  </ul>
+</header>
+<header>
+    
+  </header> <!-- <nav>
+    <a href="index.html"><span class="material-icons">home</span> Home</a>
+    <a href="ssc.html"><span class="material-icons">school</span> SSC</a>
+    <a href="hsc.html"><span class="material-icons">school</span> HSC</a>
+    <a href="about.html"><span class="material-icons">info</span> About</a>
+  </nav> --> <div class="container">
+    <h1>About Us</h1>
+    <h2>Welcome to GPA Calculator</h2>
+    <p>We are dedicated to making academic life easier for students by providing accurate and easy-to-use GPA calculators for SSC and HSC. Whether you're a Science, Business Studies, or Humanities student, our platform helps you calculate your GPA quickly and reliably—all in Bangla, for every student in Bangladesh.</p><h2 class="section-title">Table of Contents</h2>
+<ul class="toc">
+  <li><a href="#mission">🎯 Our Mission</a></li>
+  <li><a href="#accuracy">📊 Data Accuracy</a></li>
+  <li><a href="#ads">📢 Advertisement Policy</a></li>
+  <li><a href="#privacy">🔐 Privacy Policy</a></li>
+</ul>
+
+<h2 id="mission" class="section-title">🎯 Our Mission</h2>
+<p>Our goal is to support students across Bangladesh with accessible tools to calculate grades and stay confident in their academic journey. We believe technology should serve education in the simplest way possible.</p>
+
+<h2 id="accuracy" class="section-title">📊 Data Accuracy</h2>
+<p>We strive to ensure that all subject codes, grading scales, and calculation methods follow the latest NCTB and Education Board standards. Regular updates are made to keep things accurate and helpful.</p>
+
+<h2 id="ads" class="section-title">📢 Advertisement Policy</h2>
+<p>This website may display ads to support our free services. We try to keep ads minimal and non-intrusive so users can focus on their work without distraction.</p>
+
+<h2 id="privacy" class="section-title">🔐 Privacy Policy</h2>
+<p>We respect your privacy. No personal information is collected or stored when you use our calculators. For any queries, please visit our <a href="#">Contact Us</a> page.</p>
+
+<!--<p style="margin-top: 30px;">
+  🔗 <strong>Explore:</strong>
+  <a href="about.html">About Us</a> |
+  <a href="#">Privacy Policy</a> |
+  <a href="#">Terms and Conditions</a> |
+  <a href="#">Disclaimer</a> |
+  <a href="#">Contact Us</a>
+</p> -->
+<script>
+  function toggleMenu() {
+    const navMenu = document.getElementById("navMenu");
+    const menuIcon = document.getElementById("menuIcon");
+
+    navMenu.classList.toggle("show");
+
+    // আইকন পরিবর্তন
+    if (navMenu.classList.contains("show")) {
+      menuIcon.innerHTML = "&#10005;"; // ✖
+    } else {
+      menuIcon.innerHTML = "&#9776;"; // ☰
+    }
+  }
+</script>
+  </div> <footer style="background-color: #f1f1f1; padding: 50px 40px; text-align: center; font-size: 0.95rem; color: #444;">
+  <div style="margin-bottom: 15px;">
+    <a href="about.html" style="margin: 0 12px; color: #007bff; text-decoration: none;">About Us</a>
+    |
+    <a href="privacy.html" style="margin: 0 12px; color: #007bff; text-decoration: none;">Privacy Policy</a>
+    |
+    <a href="shterms.html" style="margin: 0 12px; color: #007bff; text-decoration: none;">Terms & Conditions</a>
+    |
+    <a href="contactus.html" style="margin: 0 12px; color: #007bff; text-decoration: none;">Contact Us</a>
+  </div>
+  <div>
+    &copy; 2025 <strong>GPA Calculator BD</strong> · All rights reserved.
+  </div>
+</footer></body>
+</html>
